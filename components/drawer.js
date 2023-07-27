@@ -6,8 +6,8 @@
 /**
  * Drawer configuration options.
  * @typedef {Object} DrawerOptions
- * @property {string} triggerSelector - The selector for the drawer trigger elements.
- * @property {string} drawerAttribute - The attribute used to identify the drawer (data attribute name).
+ * @property {string} drawerTrigger - The data attribute name for the drawer trigger elements.
+ * @property {string} drawerIdentifier - The data attribute name used to identify the drawer.
  * @property {string} openClass - The class name for the open (visible) state of the drawer.
  */
 
@@ -18,8 +18,8 @@
  */
 const Drawer = (options) => {
   const defaultOptions = {
-    triggerSelector: '[data-drawer-trigger]',
-    drawerAttribute: '[data-drawer]',
+    drawerTrigger: 'data-drawer-trigger',
+    drawerIdentifier: 'data-drawer',
     openClass: 'open',
   };
 
@@ -31,7 +31,7 @@ const Drawer = (options) => {
    * @param {string} drawerName - The name of the drawer to be opened.
    */
   function openDrawer(drawerName) {
-    const drawer = document.querySelector(`${settings.drawerAttribute}="${drawerName}"`);
+    const drawer = document.querySelector(`[${settings.drawerIdentifier}="${drawerName}"]`);
     if (drawer) {
       if (openDrawerName !== null) {
         closeDrawer(openDrawerName);
@@ -46,7 +46,7 @@ const Drawer = (options) => {
    * @param {string} drawerName - The name of the drawer to be closed.
    */
   function closeDrawer(drawerName) {
-    const drawer = document.querySelector(`${settings.drawerAttribute}="${drawerName}"`);
+    const drawer = document.querySelector(`[${settings.drawerIdentifier}="${drawerName}"]`);
     if (drawer) {
       drawer.classList.remove(settings.openClass);
       openDrawerName = null;
@@ -69,10 +69,10 @@ const Drawer = (options) => {
    * Initializes the Drawer module with the given options.
    */
   function init() {
-    const triggerButtons = document.querySelectorAll(settings.triggerSelector);
-    triggerButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        const drawerName = button.getAttribute(settings.drawerAttribute);
+    const triggerElements = document.querySelectorAll(`[${settings.drawerTrigger}]`);
+    triggerElements.forEach((el) => {
+      el.addEventListener('click', () => {
+        const drawerName = el.getAttribute(settings.drawerTrigger);
         toggleDrawer(drawerName);
       });
     });

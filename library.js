@@ -1,4 +1,4 @@
-import Drawer from './components/drawer';
-import Collapsible from './components/collapsible';
+import Drawer from './components/drawer.js';
+import Collapsible from './components/collapsible.js';
 
 export { Drawer, Collapsible };
