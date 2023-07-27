@@ -69,10 +69,10 @@ const Drawer = (options) => {
    * Initializes the Drawer module with the given options.
    */
   function init() {
-    const triggerButtons = document.querySelectorAll(`[${settings.drawerTrigger}]`);
-    triggerButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        const drawerName = button.getAttribute(settings.drawerTrigger);
+    const triggerElements = document.querySelectorAll(`[${settings.drawerTrigger}]`);
+    triggerElements.forEach((el) => {
+      el.addEventListener('click', () => {
+        const drawerName = el.getAttribute(settings.drawerTrigger);
         toggleDrawer(drawerName);
       });
     });
