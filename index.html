@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Tanuki</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <!-- Drawer: Start -->
+    <button data-drawer-trigger="drawer-1">Open Drawer</button>
+    <div data-drawer="drawer-1">
+      <h2>Lorem, ipsum.</h2>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cupiditate reiciendis
+        necessitatibus sunt ut? Nemo adipisci harum veritatis quos quam.
+      </p>
+    </div>
+    <!-- Drawer: End -->
+    <!-- Collapsible: Start -->
+    <button data-collapsible-trigger="content-1">Toggle Content</button>
+    <div data-collapsible-content="content-1">
+      <p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias ipsum deleniti repellat vel
+        nam, iusto modi fugit reiciendis rem sunt?
+      </p>
+    </div>
+    <!-- Collapsible: End -->
+    <!-- Collapsible: Start -->
+    <button data-collapsible-trigger="content-2">Toggle Content</button>
+    <div data-collapsible-content="content-2">
+      <p>
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias ipsum deleniti repellat vel
+        nam, iusto modi fugit reiciendis rem sunt?
+      </p>
+    </div>
+     <!-- Collapsible: End -->
+    <script src="./main.js"></script>
+    <script>
+      const drawer = Tanuki.Drawer();
+      const collapsible = Tanuki.Collapsible();
+
+      document.addEventListener("DOMContentLoaded", function () {
+        drawer.init();
+        collapsible.init();
+      });
+    </script>
+  </body>
+</html>
