@@ -1,0 +1,19 @@
+# Mac OS X
+.DS_Store
+._.*
+._*
+
+# Windows
+Thumbs.db
+
+# Dependency packages files
+node_modules
+package-lock.json
+
+# Misc
+npm-debug.log
+*.log
+.idea
+.vscode
+.cache
+.eslintcache
