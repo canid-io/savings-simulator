@@ -1,0 +1,14 @@
+[data-collapsible-content] {
+  overflow: hidden;
+  opacity: 0;
+  height: 0;
+}
+
+[data-collapsible-content].visible {
+  display: block;
+  opacity: 1;
+  height: auto;
+  transition-property: height, opacity;
+  transition-duration: .3s;
+  transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
