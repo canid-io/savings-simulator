@@ -2,8 +2,8 @@ const Collapsible = (options) => {
   const defaultOptions = {
     triggerSelector: "[data-collapsible-trigger]",
     contentSelector: "[data-collapsible-content]",
-    activeClass: "active",
-    visibleClass: "visible",
+    activeClass: "is-active",
+    visibleClass: "is-visible",
   };
 
   const settings = { ...defaultOptions, ...options };
