@@ -73,10 +73,10 @@ const Simulator = () => {
         displayResults(data);
 
         // Drawer
+        const drawer = Drawer();
         const identifyDrawer = form.closest('[data-drawer]');
 
         if (identifyDrawer) {
-          const drawer = Drawer();
           const drawerName = identifyDrawer.getAttribute('data-drawer');
           drawer.closeDrawer(drawerName);
         }
