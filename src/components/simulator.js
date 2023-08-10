@@ -127,14 +127,19 @@ const Simulator = () => {
     }, 0);
   };
 
-  function updateEstYearlyVaxAdmin(value) {
+  const updateEstYearlyVaxAdmin = (value) => {
     const estYearlyVaxAdminResult = document.querySelector('[data-result="estYearlyVaxAdmin"]');
     if (estYearlyVaxAdminResult) {
-      estYearlyVaxAdminResult.textContent = parseInt(value) * 3850 / 2;
+      const parsedValue = parseInt(value);
+      if (isNaN(parsedValue)) {
+        estYearlyVaxAdminResult.textContent = 0;
+      } else {
+        estYearlyVaxAdminResult.textContent = parsedValue * 3850 / 2;
+      }
     } else {
       console.error("Element with data-result='estYearlyVaxAdmin' not found.");
     }
-  }
+  };
 
   function toggleSection(targetSection, selector) {
     const simulationElements = document.querySelectorAll(selector);
