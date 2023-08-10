@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const isProduction = process.env.NODE_ENV === "production";
 const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : "style-loader";
 
@@ -20,11 +21,20 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "index.html",
+      ignoreOrder: true,
     }),
     new MiniCssExtractPlugin({
       filename: "styles.css",
+      ignoreOrder: true,
     }),
   ],
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        extractComments: false,
+      }),
+    ],
+  },
   module: {
     rules: [
       {

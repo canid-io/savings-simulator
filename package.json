@@ -2,6 +2,8 @@
   "name": "savings-simulator",
   "version": "1.0.0",
   "description": "Component library and logic for the savings simulator",
+  "author": "Franco Moya <franco.moya@canid.io>",
+  "license": "MIT",
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
@@ -14,6 +16,7 @@
     "mini-css-extract-plugin": "^2.7.6",
     "prettier": "^3.0.1",
     "style-loader": "^3.3.3",
+    "terser-webpack-plugin": "^5.3.9",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
@@ -30,8 +33,6 @@
     "type": "git",
     "url": "git+https://github.com/canid-io/savings-simulator.git"
   },
-  "author": "Franco Moya <franco.moya@canid.io>",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/canid-io/savings-simulator/issues"
   },
