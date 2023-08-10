@@ -88,17 +88,22 @@ const Simulator = () => {
     });
   };
 
-  function displayResults(data) {
+  const displayResults = (data) => {
     const resultElements = document.querySelectorAll('[data-result]');
 
     resultElements.forEach((element) => {
       const key = element.getAttribute('data-result');
 
       if (key in data) {
-        element.textContent = data[key];
+        const value = data[key];
+        if (typeof value === 'number' && !isNaN(value)) {
+          element.textContent = value.toLocaleString('en-US');
+        } else {
+          element.textContent = value;
+        }
       }
     });
-  }
+  };
 
   const sumValues = input => {
     if (Array.isArray(input)) {
@@ -132,19 +137,20 @@ const Simulator = () => {
     if (estYearlyVaxAdminResult) {
       const parsedValue = parseInt(value);
       if (isNaN(parsedValue)) {
-        estYearlyVaxAdminResult.textContent = 0;
+        estYearlyVaxAdminResult.textContent = "0";
       } else {
-        estYearlyVaxAdminResult.textContent = parsedValue * 3850 / 2;
+        const formattedValue = (parsedValue * 3850 / 2).toLocaleString('en-US');
+        estYearlyVaxAdminResult.textContent = formattedValue;
       }
     } else {
       console.error("Element with data-result='estYearlyVaxAdmin' not found.");
     }
   };
 
-  function toggleSection(targetSection, selector) {
+  const toggleSection = (targetSection, selector) => {
     const simulationElements = document.querySelectorAll(selector);
 
-    simulationElements.forEach(element => {
+    simulationElements.forEach((element) => {
       const section = element.getAttribute('data-simulation');
       if (section === targetSection) {
         element.classList.add('is-active');
@@ -152,7 +158,7 @@ const Simulator = () => {
         element.classList.remove('is-active');
       }
     });
-  }
+  };
 
   return {
     init,
