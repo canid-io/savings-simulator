@@ -8,7 +8,7 @@ const Collapsible = (options) => {
 
   const settings = { ...defaultOptions, ...options };
 
-  function init() {
+  const init = () => {
     const triggerElements = document.querySelectorAll(settings.triggerSelector);
     triggerElements.forEach((trigger) => {
       trigger.addEventListener("click", () => {
@@ -16,9 +16,9 @@ const Collapsible = (options) => {
         toggleCollapsible(trigger, content);
       });
     });
-  }
+  };
 
-  function toggleCollapsible(triggerElement, contentElement) {
+  const toggleCollapsible = (triggerElement, contentElement) => {
     if (!contentElement) return;
 
     if (contentElement.classList.contains(settings.visibleClass)) {
@@ -28,7 +28,7 @@ const Collapsible = (options) => {
       contentElement.classList.add(settings.visibleClass);
       triggerElement.classList.add(settings.activeClass);
     }
-  }
+  };
 
   return {
     init,

@@ -8,7 +8,7 @@ const Drawer = (options) => {
   const settings = { ...defaultOptions, ...options };
   let openDrawerName = null;
 
-  function openDrawer(drawerName) {
+  const openDrawer = (drawerName) => {
     const drawer = getDrawerElement(drawerName);
     if (!drawer) {
       console.error(`Drawer with name ${drawerName} not found.`);
@@ -19,9 +19,9 @@ const Drawer = (options) => {
     drawer.classList.add(settings.openClass);
     openDrawerName = drawerName;
     toggleBodyOverflow(true);
-  }
+  };
 
-  function closeDrawer(drawerName) {
+  const closeDrawer = (drawerName) => {
     const drawer = getDrawerElement(drawerName);
     if (!drawer) {
       console.error(`Drawer with name ${drawerName} not found.`);
@@ -31,17 +31,17 @@ const Drawer = (options) => {
     drawer.classList.remove(settings.openClass);
     openDrawerName = null;
     toggleBodyOverflow(false);
-  }
+  };
 
-  function toggleDrawer(drawerName) {
+  const toggleDrawer = (drawerName) => {
     if (openDrawerName === drawerName) {
       closeDrawer(drawerName);
     } else {
       openDrawer(drawerName);
     }
-  }
+  };
 
-  function init() {
+  const init = () => {
     const triggerElements = document.querySelectorAll(
       `[${settings.drawerTrigger}]`
     );
@@ -51,23 +51,23 @@ const Drawer = (options) => {
         toggleDrawer(drawerName);
       });
     });
-  }
+  };
 
-  function getDrawerElement(drawerName) {
+  const getDrawerElement = (drawerName) => {
     return document.querySelector(
       `[${settings.drawerIdentifier}="${drawerName}"]`
     );
-  }
+  };
 
-  function closeOpenDrawer() {
+  const closeOpenDrawer = () => {
     if (openDrawerName !== null) {
       closeDrawer(openDrawerName);
     }
-  }
+  };
 
-  function toggleBodyOverflow(shouldHide) {
+  const toggleBodyOverflow = (shouldHide) => {
     document.body.style.overflow = shouldHide ? "hidden" : "auto";
-  }
+  };
 
   return {
     init,
