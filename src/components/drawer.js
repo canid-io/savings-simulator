@@ -2,7 +2,7 @@ const Drawer = (options) => {
   const defaultOptions = {
     drawerTrigger: "data-drawer-trigger",
     drawerIdentifier: "data-drawer",
-    openClass: "open",
+    openClass: "is-open",
   };
 
   const settings = { ...defaultOptions, ...options };
@@ -18,6 +18,7 @@ const Drawer = (options) => {
     closeOpenDrawer();
     drawer.classList.add(settings.openClass);
     openDrawerName = drawerName;
+    toggleBodyOverflow(true);
   }
 
   function closeDrawer(drawerName) {
@@ -29,6 +30,7 @@ const Drawer = (options) => {
 
     drawer.classList.remove(settings.openClass);
     openDrawerName = null;
+    toggleBodyOverflow(false);
   }
 
   function toggleDrawer(drawerName) {
@@ -61,6 +63,10 @@ const Drawer = (options) => {
     if (openDrawerName !== null) {
       closeDrawer(openDrawerName);
     }
+  }
+
+  function toggleBodyOverflow(shouldHide) {
+    document.body.style.overflow = shouldHide ? "hidden" : "auto";
   }
 
   return {
