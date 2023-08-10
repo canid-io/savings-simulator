@@ -1,48 +1,90 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <title>Tanuki</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  </head>
-  <body>
-    <!-- Drawer: Start -->
-    <button data-drawer-trigger="drawer-1">Open Drawer</button>
-    <div data-drawer="drawer-1">
-      <h2>Lorem, ipsum.</h2>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cupiditate reiciendis
-        necessitatibus sunt ut? Nemo adipisci harum veritatis quos quam.
-      </p>
-    </div>
-    <!-- Drawer: End -->
-    <!-- Collapsible: Start -->
-    <button data-collapsible-trigger="content-1">Toggle Content</button>
-    <div data-collapsible-content="content-1">
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias ipsum deleniti repellat vel
-        nam, iusto modi fugit reiciendis rem sunt?
-      </p>
-    </div>
-    <!-- Collapsible: End -->
-    <!-- Collapsible: Start -->
-    <button data-collapsible-trigger="content-2">Toggle Content</button>
-    <div data-collapsible-content="content-2">
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias ipsum deleniti repellat vel
-        nam, iusto modi fugit reiciendis rem sunt?
-      </p>
-    </div>
-     <!-- Collapsible: End -->
-    <script src="./main.js"></script>
-    <script>
-      const drawer = Tanuki.Drawer();
-      const collapsible = Tanuki.Collapsible();
 
-      document.addEventListener("DOMContentLoaded", function () {
-        drawer.init();
-        collapsible.init();
-      });
-    </script>
-  </body>
+<head>
+  <title>Tanuki</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+  <!-- Drawer: Start -->
+  <button data-drawer-trigger="drawer-1">Open Drawer</button>
+  <div data-drawer="drawer-1">
+    <!-- Simulator: Start -->
+    <div class="w-form">
+      <form id="email-form" name="email-form" data-name="Email Form" method="get" data-form="simulator"
+        data-wf-page-id="64bfd01873964b051abf1f20" data-wf-element-id="fc292b01-4736-1867-5f3a-b3c9f312e844"
+        aria-label="Email Form"><label for="field">Vaccine Management Responsibilities are...</label><select id="field"
+          name="field" data-name="Field" required="" class="w-select">
+          <option value="">Select one...</option>
+          <option value="First">First choice</option>
+          <option value="Second">Second choice</option>
+          <option value="Third">Third choice</option>
+        </select><label for="name">Full time Pediatric providers (MDs, DOs, NPs)</label><input type="number"
+          class="w-input" maxlength="256" name="name" data-name="Name" placeholder="" id="name" required=""><label
+          for="field-2">% of vaccines that are VFC</label><select id="field-2" name="field-2" data-name="Field 2"
+          class="w-select">
+          <option value="">Select one...</option>
+          <option value="First">First choice</option>
+          <option value="Second">Second choice</option>
+          <option value="Third">Third choice</option>
+        </select><label for="field-3">Billing fee (if outsourced)</label><select id="field-3" name="field-3"
+          data-name="Field 3" class="w-select">
+          <option value="">Select one...</option>
+          <option value="First">First choice</option>
+          <option value="Second">Second choice</option>
+          <option value="Third">Third choice</option>
+        </select><input type="submit" value="Submit" data-wait="Please wait..." class="w-button"></form>
+      <div class="w-form-done" tabindex="-1" role="region" aria-label="Email Form success">
+        <div>Thank you! Your submission has been received!</div>
+      </div>
+      <div class="w-form-fail" tabindex="-1" role="region" aria-label="Email Form failure">
+        <div>Oops! Something went wrong while submitting the form.</div>
+      </div>
+    </div>
+    <!-- Simulator: End -->
+  </div>
+  <!-- Drawer: End -->
+  <!-- Collapsible: Start -->
+  <button data-collapsible-trigger="content-1">Toggle Content</button>
+  <div data-collapsible-content="content-1">
+    <p>
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias ipsum deleniti repellat vel
+      nam, iusto modi fugit reiciendis rem sunt?
+    </p>
+  </div>
+  <!-- Collapsible: End -->
+  <!-- Collapsible: Start -->
+  <button data-collapsible-trigger="content-2">Toggle Content</button>
+  <div data-collapsible-content="content-2">
+    <p>
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias ipsum deleniti repellat vel
+      nam, iusto modi fugit reiciendis rem sunt?
+    </p>
+  </div>
+  <!-- Collapsible: End -->
+  <!-- Simulator: Start -->
+  <div data-simulation="intro" class="active">
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium laboriosam repellat nulla odio ratione aperiam commodi ullam a aliquid dolorem?</p>
+  </div>
+  <div data-simulation="results">
+    Resultado 1: <span data-result="vaccineManagement"></span><br>
+    Resultado 2: <span data-result="pediatricProviders"></span>
+  </div>
+  <!-- Simulator: End -->
+  <script src="./main.js"></script>
+  <script>
+    const drawer = Tanuki.Drawer();
+    const collapsible = Tanuki.Collapsible();
+    const simulator = Tanuki.Simulator();
+
+    document.addEventListener("DOMContentLoaded", function () {
+      drawer.init();
+      collapsible.init();
+      simulator.init();
+    });
+  </script>
+</body>
+
 </html>
