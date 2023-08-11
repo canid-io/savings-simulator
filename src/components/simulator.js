@@ -65,9 +65,10 @@ const Simulator = () => {
         data.billsHandling = 0.5 * data.estYearlyVaxAdmin / 60;
         data.yearlyTimeExpenses = sumValues([data.purchasingVaccines, data.inventoryControl, data.reviewVaccinationHistory, data.ehrDataEntry, data.iisHandling, data.billsHandling]);
 
-        // Savings
+        // Total
         data.totalRevenue = sumValues([data.totalVaxCost, data.adminFees, data.vaccineFees]);
         data.totalRevenueWithCanid = data.adminFees;
+        data.yearlySavings = -1 * (data.totalRevenue - data.totalRevenueWithCanid);
 
         // Display simulation results
         displayResults(data);
@@ -97,7 +98,9 @@ const Simulator = () => {
       if (key in data) {
         const value = data[key];
         if (typeof value === 'number' && !isNaN(value)) {
-          element.textContent = value.toLocaleString('en-US');
+          element.textContent = value.toLocaleString('en-US', {
+            maximumFractionDigits: 0,
+          });
         } else {
           element.textContent = value;
         }
@@ -139,7 +142,9 @@ const Simulator = () => {
       if (isNaN(parsedValue)) {
         estYearlyVaxAdminResult.textContent = "0";
       } else {
-        const formattedValue = (parsedValue * 3850 / 2).toLocaleString('en-US');
+        const formattedValue = (parsedValue * 3850 / 2).toLocaleString('en-US', {
+          maximumFractionDigits: 0,
+        });
         estYearlyVaxAdminResult.textContent = formattedValue;
       }
     } else {
