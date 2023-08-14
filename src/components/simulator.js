@@ -65,18 +65,19 @@ const Simulator = () => {
         data.billsHandling = 0.5 * data.estYearlyVaxAdmin / 60;
         data.yearlyTimeExpenses = sumValues([data.purchasingVaccines, data.inventoryControl, data.reviewVaccinationHistory, data.ehrDataEntry, data.iisHandling, data.billsHandling]);
 
-        // Savings
+        // Total
         data.totalRevenue = sumValues([data.totalVaxCost, data.adminFees, data.vaccineFees]);
         data.totalRevenueWithCanid = data.adminFees;
+        data.yearlySavings = -1 * (data.totalRevenue - data.totalRevenueWithCanid);
 
         // Display simulation results
         displayResults(data);
 
         // Drawer
+        const drawer = Drawer();
         const identifyDrawer = form.closest('[data-drawer]');
 
         if (identifyDrawer) {
-          const drawer = Drawer();
           const drawerName = identifyDrawer.getAttribute('data-drawer');
           drawer.closeDrawer(drawerName);
         }
@@ -88,17 +89,24 @@ const Simulator = () => {
     });
   };
 
-  function displayResults(data) {
+  const displayResults = (data) => {
     const resultElements = document.querySelectorAll('[data-result]');
 
     resultElements.forEach((element) => {
       const key = element.getAttribute('data-result');
 
       if (key in data) {
-        element.textContent = data[key];
+        const value = data[key];
+        if (typeof value === 'number' && !isNaN(value)) {
+          element.textContent = value.toLocaleString('en-US', {
+            maximumFractionDigits: 0,
+          });
+        } else {
+          element.textContent = value;
+        }
       }
     });
-  }
+  };
 
   const sumValues = input => {
     if (Array.isArray(input)) {
@@ -127,19 +135,27 @@ const Simulator = () => {
     }, 0);
   };
 
-  function updateEstYearlyVaxAdmin(value) {
+  const updateEstYearlyVaxAdmin = (value) => {
     const estYearlyVaxAdminResult = document.querySelector('[data-result="estYearlyVaxAdmin"]');
     if (estYearlyVaxAdminResult) {
-      estYearlyVaxAdminResult.textContent = parseInt(value) * 3850 / 2;
+      const parsedValue = parseInt(value);
+      if (isNaN(parsedValue)) {
+        estYearlyVaxAdminResult.textContent = "0";
+      } else {
+        const formattedValue = (parsedValue * 3850 / 2).toLocaleString('en-US', {
+          maximumFractionDigits: 0,
+        });
+        estYearlyVaxAdminResult.textContent = formattedValue;
+      }
     } else {
       console.error("Element with data-result='estYearlyVaxAdmin' not found.");
     }
-  }
+  };
 
-  function toggleSection(targetSection, selector) {
+  const toggleSection = (targetSection, selector) => {
     const simulationElements = document.querySelectorAll(selector);
 
-    simulationElements.forEach(element => {
+    simulationElements.forEach((element) => {
       const section = element.getAttribute('data-simulation');
       if (section === targetSection) {
         element.classList.add('is-active');
@@ -147,7 +163,7 @@ const Simulator = () => {
         element.classList.remove('is-active');
       }
     });
-  }
+  };
 
   return {
     init,

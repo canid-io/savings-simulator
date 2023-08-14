@@ -1,15 +1,10 @@
 [data-collapsible-content] {
+  display: none;
+  max-height: 0;
   overflow: hidden;
   opacity: 0;
-  height: 0;
-}
-
-[data-collapsible-content].visible {
-  display: block;
-  opacity: 1;
-  height: auto;
-  transition-property: height, opacity;
-  transition-duration: .3s;
-  transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition-property: max-height, opacity;
+  transition-duration: .6s;
+  transition-timing-function: cubic-bezier(0.65, 0.05, 0.36, 1);
 }
 
