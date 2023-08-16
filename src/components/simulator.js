@@ -54,14 +54,6 @@ const Simulator = () => {
         data.billingFeeCost = Math.round((data.billingFee !== "In-house" ? data.billingFee : 0) * (data.vaccineFees + data.adminFees));
         data.vaccineCosts = Math.round(data.vaccineFees * 0.825);
 
-        // console.log('vaccineFees: ' + data.vaccineFees);
-        // console.log('adminFees: ' + data.adminFees);
-        // console.log('vaccineWastage: ' + data.vaccineWastage);
-        // console.log('paymentIssues: ' + data.paymentIssues);
-        // console.log('billingFeeCost: ' + data.billingFeeCost);
-        // console.log('vaccineCosts: ' + data.vaccineCosts);
-        // console.log('totalVaxCost: ' + data.totalVaxCost);
-
         // Time
         data.purchasingVaccines = Math.round(0.5 * data.estYearlyVaxAdmin / 60);
         data.inventoryControl = Math.round(1 * data.estYearlyVaxAdmin / 60);
@@ -71,21 +63,12 @@ const Simulator = () => {
         data.billsHandling = Math.round((data.billingFee !== "In-house" ? 0.5 : 5) * data.estYearlyVaxAdmin / 60);
         data.yearlyTimeExpenses = sumValues([data.purchasingVaccines, data.inventoryControl, data.reviewVaccinationHistory, data.ehrDataEntry, data.iisHandling, data.billsHandling]);
 
-        // console.log('purchasingVaccines: ' + data.purchasingVaccines);
-        // console.log('inventoryControl: ' + data.inventoryControl);
-        // console.log('reviewVaccinationHistory: ' + data.reviewVaccinationHistory);
-        // console.log('ehrDataEntry: ' + data.ehrDataEntry);
-        // console.log('iisHandling: ' + data.iisHandling);
-        // console.log('billsHandling: ' + data.billsHandling);
-        // console.log('yearlyTimeExpenses: ' + data.yearlyTimeExpenses);
-
         // Total
-        data.hoursSpentCost = sumProduct([data.purchasingVaccines, data.inventoryControl, data.reviewVaccinationHistory, data.ehrDataEntry, data.iisHandling, data.billsHandling], [50, 50, 150, 50, 50, 40]);
-        console.log('hoursSpentCost: ' + data.hoursSpentCost);
+        data.hoursSpentCost = sumProduct([data.purchasingVaccines, data.inventoryControl, data.reviewVaccinationHistory, data.ehrDataEntry, data.iisHandling, data.billsHandling], getItemCosts(data.vaccineManagement, false));
         data.totalVaxCost = sumValues([data.hoursSpentCost, data.vaccineWastage, data.paymentIssues, data.billingFeeCost, data.vaccineCosts]);
         data.totalRevenue = sumValues([data.totalVaxCost, data.adminFees, data.vaccineFees]);
         data.totalRevenueWithCanid = data.adminFees;
-        data.yearlySavings = -1 * (data.totalRevenue - data.totalRevenueWithCanid);
+        data.yearlySavings = Math.round(data.totalRevenue - data.totalRevenueWithCanid);
 
         // Display simulation results
         displayResults(data);
@@ -104,6 +87,56 @@ const Simulator = () => {
 
       };
     });
+  };
+
+  const hourlyCost = {
+    Pediatrician: 150,
+    "OM or Nurse": 50,
+    "Admin Staff": 40,
+  };
+
+  const itemAssignments = {
+    "Provider led": {
+      "Purchasing and ordering vaccines": "Pediatrician",
+      "Inventory monitoring and count": "Pediatrician",
+      "Review vaccination history": "Pediatrician",
+      "Vaccine data entry in EHR": "Pediatrician",
+      "IIS uploads and issue handling": "Pediatrician",
+      "Submitting bills & handling objections": "OM or Nurse",
+    },
+    "Office manager or staff led": {
+      "Purchasing and ordering vaccines": "OM or Nurse",
+      "Inventory monitoring and count": "OM or Nurse",
+      "Review vaccination history": "Pediatrician",
+      "Vaccine data entry in EHR": "OM or Nurse",
+      "IIS uploads and issue handling": "OM or Nurse",
+      "Submitting bills & handling objections": "Admin Staff",
+    },
+    Hybrid: {
+      "Purchasing and ordering vaccines": "Pediatrician",
+      "Inventory monitoring and count": "OM or Nurse",
+      "Review vaccination history": "Pediatrician",
+      "Vaccine data entry in EHR": "Pediatrician",
+      "IIS uploads and issue handling": "OM or Nurse",
+      "Submitting bills & handling objections": "Admin Staff",
+    },
+  };
+
+  const getItemCosts = (managementType, includeItemNames = true) => {
+    const assignments = itemAssignments[managementType];
+    const itemCosts = [];
+
+    for (const item in assignments) {
+      const assignedPerson = assignments[item];
+      const costPerPerson = hourlyCost[assignedPerson];
+      if (includeItemNames) {
+        itemCosts.push({ item, cost: costPerPerson });
+      } else {
+        itemCosts.push(costPerPerson);
+      }
+    }
+
+    return itemCosts;
   };
 
   const displayResults = (data) => {
