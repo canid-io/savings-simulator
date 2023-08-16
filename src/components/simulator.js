@@ -44,28 +44,45 @@ const Simulator = () => {
         });
 
         // General
-        data.estYearlyVaxAdmin = parseInt(data.pediatricProviders) * 3850 / 2;
+        data.estYearlyVaxAdmin = Math.round(data.pediatricProviders * 3850 / 2);
 
         // Money
-        data.vaccineFees = data.estYearlyVaxAdmin * ( 1 - parseInt(data.percentageVFC) ) * 100;
-        data.adminFees = data.estYearlyVaxAdmin * ( 1 - parseInt(data.percentageVFC) ) * 20 + data.estYearlyVaxAdmin * ( 1 - parseInt(data.percentageVFC) ) * 35;
-        data.hoursSpentCost = sumProduct([data.purchasingVaccines, data.inventoryControl, data.reviewVaccinationHistory, data.ehrDataEntry, data.iisHandling, data.billsHandling], [50, 50, 150, 50, 50, 40]);
-        data.vaccineWastage = -1 * (data.vaccineFees * 0.02);
-        data.paymentIssues = -1 * ((data.vaccineFees + data.adminFees) * 0.05);
-        data.billingFeeCost = (data.billingFee !== "In-house" ? data.billingFee : 0) * (data.vaccineFees + data.adminFees);;
-        data.vaccineCosts = -1 * (data.vaccineFees * 0.825);
-        data.totalVaxCost = sumValues([data.timeExpenses, data.vaccineWastag, data.paymentIssues, data.billingFeeCost, data.vaccineCosts]);
+        data.vaccineFees = data.estYearlyVaxAdmin * ( data.percentageVFC / 100 ) * 100;
+        data.adminFees = data.estYearlyVaxAdmin * ( data.percentageVFC / 100 ) * 20 + data.estYearlyVaxAdmin * ( data.percentageVFC / 100 ) * 35;
+        data.vaccineWastage = Math.round(data.vaccineFees * 0.02);
+        data.paymentIssues =  Math.round((data.vaccineFees + data.adminFees) * 0.05);
+        data.billingFeeCost = Math.round((data.billingFee !== "In-house" ? data.billingFee : 0) * (data.vaccineFees + data.adminFees));
+        data.vaccineCosts = Math.round(data.vaccineFees * 0.825);
+
+        // console.log('vaccineFees: ' + data.vaccineFees);
+        // console.log('adminFees: ' + data.adminFees);
+        // console.log('vaccineWastage: ' + data.vaccineWastage);
+        // console.log('paymentIssues: ' + data.paymentIssues);
+        // console.log('billingFeeCost: ' + data.billingFeeCost);
+        // console.log('vaccineCosts: ' + data.vaccineCosts);
+        // console.log('totalVaxCost: ' + data.totalVaxCost);
 
         // Time
-        data.purchasingVaccines = 0.5 * data.estYearlyVaxAdmin / 60;
-        data.inventoryControl = 1 * data.estYearlyVaxAdmin / 60;
-        data.reviewVaccinationHistory = 1 * data.estYearlyVaxAdmin / 60;
-        data.ehrDataEntry = 3 * data.estYearlyVaxAdmin / 60;
-        data.iisHandling = 0.5 * data.estYearlyVaxAdmin / 60;
-        data.billsHandling = 0.5 * data.estYearlyVaxAdmin / 60;
+        data.purchasingVaccines = Math.round(0.5 * data.estYearlyVaxAdmin / 60);
+        data.inventoryControl = Math.round(1 * data.estYearlyVaxAdmin / 60);
+        data.reviewVaccinationHistory = Math.round(1 * data.estYearlyVaxAdmin / 60);
+        data.ehrDataEntry = Math.round(3 * data.estYearlyVaxAdmin / 60);
+        data.iisHandling = Math.round(0.5 * data.estYearlyVaxAdmin / 60);
+        data.billsHandling = Math.round((data.billingFee !== "In-house" ? 0.5 : 5) * data.estYearlyVaxAdmin / 60);
         data.yearlyTimeExpenses = sumValues([data.purchasingVaccines, data.inventoryControl, data.reviewVaccinationHistory, data.ehrDataEntry, data.iisHandling, data.billsHandling]);
 
+        // console.log('purchasingVaccines: ' + data.purchasingVaccines);
+        // console.log('inventoryControl: ' + data.inventoryControl);
+        // console.log('reviewVaccinationHistory: ' + data.reviewVaccinationHistory);
+        // console.log('ehrDataEntry: ' + data.ehrDataEntry);
+        // console.log('iisHandling: ' + data.iisHandling);
+        // console.log('billsHandling: ' + data.billsHandling);
+        // console.log('yearlyTimeExpenses: ' + data.yearlyTimeExpenses);
+
         // Total
+        data.hoursSpentCost = sumProduct([data.purchasingVaccines, data.inventoryControl, data.reviewVaccinationHistory, data.ehrDataEntry, data.iisHandling, data.billsHandling], [50, 50, 150, 50, 50, 40]);
+        console.log('hoursSpentCost: ' + data.hoursSpentCost);
+        data.totalVaxCost = sumValues([data.hoursSpentCost, data.vaccineWastage, data.paymentIssues, data.billingFeeCost, data.vaccineCosts]);
         data.totalRevenue = sumValues([data.totalVaxCost, data.adminFees, data.vaccineFees]);
         data.totalRevenueWithCanid = data.adminFees;
         data.yearlySavings = -1 * (data.totalRevenue - data.totalRevenueWithCanid);
