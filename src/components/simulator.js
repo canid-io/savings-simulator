@@ -66,7 +66,7 @@ const Simulator = () => {
         // Total
         data.hoursSpentCost = sumProduct([data.purchasingVaccines, data.inventoryControl, data.reviewVaccinationHistory, data.ehrDataEntry, data.iisHandling, data.billsHandling], getItemCosts(data.vaccineManagement, false));
         data.totalVaxCost = sumValues([data.hoursSpentCost, data.vaccineWastage, data.paymentIssues, data.billingFeeCost, data.vaccineCosts]);
-        data.totalRevenue = sumValues([data.totalVaxCost, data.adminFees, data.vaccineFees]);
+        data.totalRevenue = sumValues([-data.totalVaxCost, data.adminFees, data.vaccineFees]);
         data.totalRevenueWithCanid = data.adminFees;
         data.yearlySavings = Math.round(data.totalRevenue - data.totalRevenueWithCanid);
 
