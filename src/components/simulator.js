@@ -44,23 +44,23 @@ const Simulator = () => {
         });
 
         // General
-        data.estYearlyVaxAdmin = Math.round(data.pediatricProviders * 3850 / 2);
+        data.estYearlyVaxAdmin = data.pediatricProviders * 3850 / 2;
 
         // Money
         data.vaccineFees = data.estYearlyVaxAdmin * ( data.percentageVFC / 100 ) * 100;
         data.adminFees = data.estYearlyVaxAdmin * ( data.percentageVFC / 100 ) * 20 + data.estYearlyVaxAdmin * ( data.percentageVFC / 100 ) * 35;
-        data.vaccineWastage = Math.round(data.vaccineFees * 0.02);
-        data.paymentIssues =  Math.round((data.vaccineFees + data.adminFees) * 0.05);
-        data.billingFeeCost = Math.round((data.billingFee !== "In-house" ? data.billingFee : 0) * (data.vaccineFees + data.adminFees));
-        data.vaccineCosts = Math.round(data.vaccineFees * 0.825);
+        data.vaccineWastage = data.vaccineFees * 0.02;
+        data.paymentIssues =  (data.vaccineFees + data.adminFees) * 0.05;
+        data.billingFeeCost = (data.billingFee !== "In-house" ? data.billingFee : 0) * (data.vaccineFees + data.adminFees);
+        data.vaccineCosts = data.vaccineFees * 0.825;
 
         // Time
-        data.purchasingVaccines = Math.round(0.5 * data.estYearlyVaxAdmin / 60);
-        data.inventoryControl = Math.round(1 * data.estYearlyVaxAdmin / 60);
-        data.reviewVaccinationHistory = Math.round(1 * data.estYearlyVaxAdmin / 60);
-        data.ehrDataEntry = Math.round(3 * data.estYearlyVaxAdmin / 60);
-        data.iisHandling = Math.round(0.5 * data.estYearlyVaxAdmin / 60);
-        data.billsHandling = Math.round((data.billingFee !== "In-house" ? 0.5 : 5) * data.estYearlyVaxAdmin / 60);
+        data.purchasingVaccines = 0.5 * data.estYearlyVaxAdmin / 60;
+        data.inventoryControl = 1 * data.estYearlyVaxAdmin / 60;
+        data.reviewVaccinationHistory = 1 * data.estYearlyVaxAdmin / 60;
+        data.ehrDataEntry = 3 * data.estYearlyVaxAdmin / 60;
+        data.iisHandling = 0.5 * data.estYearlyVaxAdmin / 60;
+        data.billsHandling = (data.billingFee !== "In-house" ? 0.5 : 5) * data.estYearlyVaxAdmin / 60;
         data.yearlyTimeExpenses = sumValues([data.purchasingVaccines, data.inventoryControl, data.reviewVaccinationHistory, data.ehrDataEntry, data.iisHandling, data.billsHandling]);
 
         // Total
@@ -68,7 +68,7 @@ const Simulator = () => {
         data.totalVaxCost = sumValues([data.hoursSpentCost, data.vaccineWastage, data.paymentIssues, data.billingFeeCost, data.vaccineCosts]);
         data.totalRevenue = sumValues([-data.totalVaxCost, data.adminFees, data.vaccineFees]);
         data.totalRevenueWithCanid = data.adminFees;
-        data.yearlySavings = Math.round(data.totalRevenue - data.totalRevenueWithCanid);
+        data.yearlySavings = data.totalRevenueWithCanid - data.totalRevenue;
 
         // Display simulation results
         displayResults(data);
@@ -148,9 +148,7 @@ const Simulator = () => {
       if (key in data) {
         const value = data[key];
         if (typeof value === 'number' && !isNaN(value)) {
-          element.textContent = value.toLocaleString('en-US', {
-            maximumFractionDigits: 0,
-          });
+          element.textContent = Math.round(value).toLocaleString('en-US');
         } else {
           element.textContent = value;
         }
@@ -192,10 +190,8 @@ const Simulator = () => {
       if (isNaN(parsedValue)) {
         estYearlyVaxAdminResult.textContent = "0";
       } else {
-        const formattedValue = (parsedValue * 3850 / 2).toLocaleString('en-US', {
-          maximumFractionDigits: 0,
-        });
-        estYearlyVaxAdminResult.textContent = formattedValue;
+        const calculatedValue = Math.round(parsedValue * 3850 / 2);
+        estYearlyVaxAdminResult.textContent = calculatedValue.toLocaleString('en-US');
       }
     } else {
       console.error("Element with data-result='estYearlyVaxAdmin' not found.");
