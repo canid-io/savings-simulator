@@ -14,9 +14,15 @@ const Simulator = () => {
       // Update EstYearlyVaxAdmin
       const pediatricProvidersInput = document.querySelector('[data-input="pediatricProviders"]');
       if (pediatricProvidersInput) {
+        let typingTimeout;
+
         pediatricProvidersInput.addEventListener('input', (event) => {
+          clearTimeout(typingTimeout);
           const newValue = event.target.value;
-          updateEstYearlyVaxAdmin(newValue);
+
+          typingTimeout = setTimeout(() => {
+            updateEstYearlyVaxAdmin(newValue);
+          }, 600);
         });
       } else {
         console.error("Element with data-input='pediatricProviders' not found.");
@@ -47,8 +53,8 @@ const Simulator = () => {
         data.estYearlyVaxAdmin = data.pediatricProviders * 3850 / 2;
 
         // Money
-        data.vaccineFees = data.estYearlyVaxAdmin * ( data.percentageVFC / 100 ) * 100;
-        data.adminFees = data.estYearlyVaxAdmin * ( data.percentageVFC / 100 ) * 20 + data.estYearlyVaxAdmin * ( data.percentageVFC / 100 ) * 35;
+        data.vaccineFees = data.estYearlyVaxAdmin * ( (100 - data.percentageVFC) / 100 ) * 100;
+        data.adminFees = data.estYearlyVaxAdmin * (data.percentageVFC / 100) * 20 + data.estYearlyVaxAdmin * ( (100 - data.percentageVFC) / 100 ) * 35;
         data.vaccineWastage = data.vaccineFees * 0.02;
         data.paymentIssues =  (data.vaccineFees + data.adminFees) * 0.05;
         data.billingFeeCost = (data.billingFee !== "In-house" ? data.billingFee : 0) * (data.vaccineFees + data.adminFees);
@@ -183,15 +189,33 @@ const Simulator = () => {
     }, 0);
   };
 
+  const animateTyping = (element, text, speed) => {
+    element.textContent = '';
+    let i = 0;
+
+    const typeWriter = () => {
+      if (i < text.length) {
+        element.textContent += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+    };
+
+    typeWriter();
+  };
+
   const updateEstYearlyVaxAdmin = (value) => {
     const estYearlyVaxAdminResult = document.querySelector('[data-result="estYearlyVaxAdmin"]');
+
     if (estYearlyVaxAdminResult) {
       const parsedValue = parseInt(value);
       if (isNaN(parsedValue)) {
         estYearlyVaxAdminResult.textContent = "0";
       } else {
         const calculatedValue = Math.round(parsedValue * 3850 / 2);
-        estYearlyVaxAdminResult.textContent = calculatedValue.toLocaleString('en-US');
+        const formattedValue = calculatedValue.toLocaleString('en-US');
+
+        animateTyping(estYearlyVaxAdminResult, formattedValue, 50);
       }
     } else {
       console.error("Element with data-result='estYearlyVaxAdmin' not found.");
