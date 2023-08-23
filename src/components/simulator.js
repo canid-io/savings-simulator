@@ -18,9 +18,8 @@ const Simulator = () => {
 
         pediatricProvidersInput.addEventListener('input', (event) => {
           clearTimeout(typingTimeout);
-          const newValue = event.target.value;
-
           typingTimeout = setTimeout(() => {
+            const newValue = event.target.value;
             updateEstYearlyVaxAdmin(newValue);
           }, 600);
         });
@@ -190,7 +189,12 @@ const Simulator = () => {
   };
 
   const animateTyping = (element, text, speed) => {
+    if (element.dataset.typing === "true") {
+      return;
+    }
+
     element.textContent = '';
+    element.dataset.typing = "true";
     let i = 0;
 
     const typeWriter = () => {
@@ -198,6 +202,8 @@ const Simulator = () => {
         element.textContent += text.charAt(i);
         i++;
         setTimeout(typeWriter, speed);
+      } else {
+        element.dataset.typing = "false";
       }
     };
 
@@ -215,7 +221,7 @@ const Simulator = () => {
         const calculatedValue = Math.round(parsedValue * 3850 / 2);
         const formattedValue = calculatedValue.toLocaleString('en-US');
 
-        animateTyping(estYearlyVaxAdminResult, formattedValue, 50);
+        animateTyping(estYearlyVaxAdminResult, formattedValue, 80);
       }
     } else {
       console.error("Element with data-result='estYearlyVaxAdmin' not found.");
