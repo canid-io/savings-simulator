@@ -6,7 +6,6 @@ const Drawer = (options) => {
   };
 
   const settings = { ...defaultOptions, ...options };
-  let openDrawerName = null;
 
   const openDrawer = (drawerName) => {
     const drawer = getDrawerElement(drawerName);
@@ -15,9 +14,7 @@ const Drawer = (options) => {
       return;
     }
 
-    closeOpenDrawer();
     drawer.classList.add(settings.openClass);
-    openDrawerName = drawerName;
     toggleBodyOverflow(true);
   };
 
@@ -29,12 +26,17 @@ const Drawer = (options) => {
     }
 
     drawer.classList.remove(settings.openClass);
-    openDrawerName = null;
     toggleBodyOverflow(false);
   };
 
   const toggleDrawer = (drawerName) => {
-    if (openDrawerName === drawerName) {
+    const drawer = getDrawerElement(drawerName);
+    if (!drawer) {
+      console.error(`Drawer with name ${drawerName} not found.`);
+      return;
+    }
+
+    if (drawer.classList.contains(settings.openClass)) {
       closeDrawer(drawerName);
     } else {
       openDrawer(drawerName);
@@ -48,6 +50,7 @@ const Drawer = (options) => {
     triggerElements.forEach((el) => {
       el.addEventListener("click", () => {
         const drawerName = el.getAttribute(settings.drawerTrigger);
+        cleanDrawers(drawerName);
         toggleDrawer(drawerName);
       });
     });
@@ -59,10 +62,14 @@ const Drawer = (options) => {
     );
   };
 
-  const closeOpenDrawer = () => {
-    if (openDrawerName !== null) {
-      closeDrawer(openDrawerName);
-    }
+  const cleanDrawers = (targetDrawer) => {
+    const openDrawers = document.querySelectorAll(`[${settings.drawerIdentifier}].${settings.openClass}`);
+    openDrawers.forEach((drawer) => {
+      const openDrawerIdentifier = drawer.getAttribute(settings.drawerIdentifier);
+      if (openDrawerIdentifier !== targetDrawer) {
+        closeDrawer(openDrawerIdentifier);
+      }
+    });
   };
 
   const toggleBodyOverflow = (shouldHide) => {
@@ -74,6 +81,7 @@ const Drawer = (options) => {
     openDrawer,
     closeDrawer,
     toggleDrawer,
+    cleanDrawers,
   };
 };
 
